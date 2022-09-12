@@ -116,9 +116,20 @@ public class ArrayCollection<T> implements Collection<T> {
 		return false;
 	}
 
+	/**
+	 * Checks if the Array List Contains Anything from another Array List.
+	 * @param arg0 - Array List it is Checking.
+	 * @return True if Initial Array List has anything from compared List. Otherwise Return False.
+	 */
 	public boolean containsAll(Collection<?> arg0) {
-		// TODO Auto-generated method stub
-		return false;
+		for(int i = 0; i < arg0.size(); i++){
+			//Loops through the Array and calls contains() method for every index in the compared array.
+			if(contains(arg0.data[i])){
+				continue;
+			}
+			else{return false;}
+		}
+		return true;
 	}
 
 	public boolean isEmpty() {
