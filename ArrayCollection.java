@@ -132,10 +132,13 @@ public class ArrayCollection<T> implements Collection<T> {
 		return true;
 	}
 
+	/**
+	 * Checks if an Array is Empty
+	 * @return -True if it is empty. Otherwise return False.
+	 */
 	public boolean isEmpty() {
-
+		//Checks if the size of the array equals zero.
 		if(this.size == 0){return true;}
-
 		return false;
 	}
 
@@ -145,8 +148,11 @@ public class ArrayCollection<T> implements Collection<T> {
 	}
 
 	public boolean remove(Object arg0) {
-		// TODO Auto-generated method stub
-		return false;
+//
+//		if(!contains(arg0)){
+//			return false;}
+//		for(int i = 0; this.size)
+
 	}
 
 	public boolean removeAll(Collection<?> arg0) {
