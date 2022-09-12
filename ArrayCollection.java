@@ -55,7 +55,7 @@ public class ArrayCollection<T> implements Collection<T> {
 		temp = new int[data.length * 2];
 		temp = data.clone();
 		data = temp;
-		this.maxSize = maxSize*2;
+		this.maxSize = this.maxSize*2;
 		// You will need to use something similar to the code in the constructor above to create a new array.
 	}
 
@@ -68,7 +68,7 @@ public class ArrayCollection<T> implements Collection<T> {
 	public boolean add(T arg0) {
 		//Checks if the array is full
 		//Grows if it is full. Does nothing if it isn't.
-		if(this.size == this.maxSize-1){
+		if(this.size == this.maxSize){
 			grow();
 
 		}
@@ -133,7 +133,9 @@ public class ArrayCollection<T> implements Collection<T> {
 	}
 
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
+
+		if(this.size == 0){return true;}
+
 		return false;
 	}
 
