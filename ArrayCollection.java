@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * @author Daniel Kopta and ??
+ * @author Daniel Kopta, Sebastian Barney, and Amelia Neilson.
  * Implements the Collection interface using an array as storage.
  * The array must grow as needed.
  * An ArrayCollection can not contain duplicates.
@@ -49,7 +49,8 @@ public class ArrayCollection<T> implements Collection<T> {
 
 
 	public boolean add(T arg0) {
-		// TODO Auto-generated method stub
+
+		this[size] = arg0;
 		return false;
 	}
 
@@ -62,8 +63,19 @@ public class ArrayCollection<T> implements Collection<T> {
 		// TODO Auto-generated method stub
 	}
 
+	/**
+	 * Checks to see if the object is already contained within the list.
+	 * @param arg0 - Object that is being checked
+	 * @return - True if object is in the array, False if it is not.
+	 */
+
 	public boolean contains(Object arg0) {
-		// TODO Auto-generated method stub
+		//Loops through the array and if the data at any index in the array is equal to the object return true
+		//Otherwise Return False.
+		for(int i =0; i < this.size; i++){
+			if(arg0 == this.data[i]){
+				return true;
+			}}
 		return false;
 	}
 
@@ -98,8 +110,8 @@ public class ArrayCollection<T> implements Collection<T> {
 	}
 
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+
+		return this.size;
 	}
 
 	public Object[] toArray() {
