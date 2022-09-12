@@ -27,6 +27,10 @@ public class ArrayCollection<T> implements Collection<T> {
 	private T data[]; // Storage for the items in the collection
 	private int size; // Keep track of how many items this collection holds
 
+	private int maxSize; // Keeps track of the maxSize of the Array
+
+
+
 	// There is no clean way to convert between T and Object, so we suppress the warning.
 	@SuppressWarnings("unchecked")  
 	public ArrayCollection()
@@ -34,6 +38,7 @@ public class ArrayCollection<T> implements Collection<T> {
 		size = 0;
 		// We can't instantiate an array of unknown type T, so we must create an Object array, and typecast
 		data = (T[]) new Object[10]; // Start with an initial capacity of 10
+		maxSize = 1;
 	}
 
 	/**
@@ -43,20 +48,52 @@ public class ArrayCollection<T> implements Collection<T> {
 	@SuppressWarnings("unchecked")
 	private void grow()
 	{
-		// TODO fill in
+		//Instantiates a new array of integers with twice the length of the previous array.
+		//Clones the data from the old array into the new array.
+		//Makes the Initial Array into the new array.
+		//Doubles the Max Size
+		temp = new int[data.length * 2];
+		temp = data.clone();
+		data = temp;
+		this.maxSize = maxSize*2;
 		// You will need to use something similar to the code in the constructor above to create a new array.
 	}
 
+	/**
+	 * Adds data to the array if it is not already within the array. Grows array if it doesn't have enough space.
+	 * @param arg0 - Argument being added.
+	 * @return - True if the arg0 can be added, False if it cannot.
+	 */
 
 	public boolean add(T arg0) {
+		//Checks if the array is full
+		//Grows if it is full. Does nothing if it isn't.
+		if(this.size == this.maxSize-1){
+			grow();
 
-		this[size] = arg0;
+		}
+//		Checks if arg0 is contained in the array by typecasting arg0 to a generic object then calling contains(arg0) method.
+		if(!contains(((Object)arg0))){
+
+			this.data[size] = arg0;
+			size += 1;
+			return true;
+		}
 		return false;
 	}
 
+	/**
+	 * Adds a list of stuff to the array.
+	 * @param arg0 - List to be added.
+	 * @return -Returns true if the list was added, returns false otherwise.
+	 */
 	public boolean addAll(Collection<? extends T> arg0) {
-		// TODO Auto-generated method stub
-		return false;
+		//Loops through the array of stuff to be added and calls the add method for each index.
+		//If anything was not added to the array, return false.
+		for(int i = 0; i < arg0.size(); i++){
+			add(arg0.data[i]);
+			if(!add(arg0.data[i])){return false;}}
+		return true;
 	}
 
 	public void clear() {
