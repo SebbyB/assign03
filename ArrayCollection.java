@@ -69,11 +69,11 @@ public class ArrayCollection<T> implements Collection<T> {
 		//Checks if the array is full
 		//Grows if it is full. Does nothing if it isn't.
 		if(this.size == this.maxSize){
-			grow();
+			this.grow();
 
 		}
 //		Checks if arg0 is contained in the array by typecasting arg0 to a generic object then calling contains(arg0) method.
-		if(!contains(((Object)arg0))){
+		if(!this.contains(((Object)arg0))){
 
 			this.data[size] = arg0;
 			size += 1;
@@ -91,13 +91,22 @@ public class ArrayCollection<T> implements Collection<T> {
 		//Loops through the array of stuff to be added and calls the add method for each index.
 		//If anything was not added to the array, return false.
 		for(int i = 0; i < arg0.size(); i++){
-			add(arg0.data[i]);
-			if(!add(arg0.data[i])){return false;}}
+			this.add(arg0.data[i]);
+			if(!this.add(arg0.data[i])){return false;}}
 		return true;
 	}
 
+	/**
+	 * Clears initial Array
+	 */
 	public void clear() {
-		// TODO Auto-generated method stub
+		//initializes new array of size 0;
+		T[] array = new arrayCollection();
+		//resets size and max size to 0 and sets data of array to new array.
+		this.size = 0;
+		this.maxSize = 0;
+		this.data = array;
+
 	}
 
 	/**
@@ -124,7 +133,7 @@ public class ArrayCollection<T> implements Collection<T> {
 	public boolean containsAll(Collection<?> arg0) {
 		for(int i = 0; i < arg0.size(); i++){
 			//Loops through the Array and calls contains() method for every index in the compared array.
-			if(contains(arg0.data[i])){
+			if(this.contains(arg0.data[i])){
 				continue;
 			}
 			else{return false;}
@@ -143,21 +152,54 @@ public class ArrayCollection<T> implements Collection<T> {
 	}
 
 	public Iterator<T> iterator() {
-		// TODO Auto-generated method stub
+
+//		return new ArrayCollectionIterator();
 		return null;
 	}
 
+	/**
+	 * Removes an Object from an Array
+	 * @param arg0 - The object Being Removed
+	 * @return - Returns false if the object is never in the initial array. Otherwise returns true.
+	 */
 	public boolean remove(Object arg0) {
-//
-//		if(!contains(arg0)){
-//			return false;}
-//		for(int i = 0; this.size)
+//Initial Check for argument in array.
+		if(!this.contains(arg0)){
+			return false;}
+		//creates a new temporary array that is the same size as the initial array.
+		temp = new int[this.data.length];
+		//loops through initial array.
+		for(int i = 0; this.size){
+			// if at any point the array's data is equal to the argument, skip it.
+			if(this.data[i].equals(arg0)){
+				continue;
+				this.size -= 1;
+			}
+			//otherwise add it to the temp array
+			else{
+				temp.add(this.data[i]);
 
+			}
+		}
+		//set the initial array equal to the temp array and return true.
+		this.data = temp;
+		return true;
 	}
 
+	/**
+	 * removes a collection of items (an array) from the initial array.
+	 * @param arg0 - the array being removed from the initial array.
+	 * @return False if the initial array doesn't contain arg0, true otherwise.
+	 */
 	public boolean removeAll(Collection<?> arg0) {
-		// TODO Auto-generated method stub
-		return false;
+		//Initial check if the initial array contains arg0
+		if(!this.containsAll(arg0)){ return false;}
+		//if it does, loop through the array and remove each data point from the initial array and return true after they have all been removed.
+		for(int i = 0; i < arg0.length; i++){
+			this.remove(arg0.data[i]);
+		}
+
+		return true;
 	}
 
 	public boolean retainAll(Collection<?> arg0) {
@@ -165,14 +207,39 @@ public class ArrayCollection<T> implements Collection<T> {
 		return false;
 	}
 
+	/**
+	 * finds the size of an array
+	 * @return - the size of the array
+	 */
 	public int size() {
 
 		return this.size;
 	}
 
+	/**
+	 * Changes the initial array of arbitrary size into an array that is the exact size
+	 * @return - an array of exact size
+	 */
 	public Object[] toArray() {
-		// TODO Auto-generated method stub
-		return null;
+		//creates a counter
+		int counter = 0;
+		//loops through the array and increments the counter for every non null entry in the array.
+		for(int i = 0; i < this.size(); i++){
+			if(this.data[i].equals(null)){
+				continue;
+			}
+			else{
+				counter++;
+			}
+
+		}
+		//creates a new array of size counter (which will be the exact size of valid array entries)
+		// for every entry in the array add it to the exact array if it is not null.
+		Object[] newArray = new Object[counter];
+		for(int j = 0; j <= counter; j++){
+			if(!this.data[j].equals(null)){
+		newArray[j] = (Object) this.data[j] ;}}
+		return newArray;
 	}
 
 	/* 
@@ -211,23 +278,23 @@ public class ArrayCollection<T> implements Collection<T> {
 	 */
 	private class ArrayCollectionIterator implements Iterator<T>
 	{
+		int nextIDX = 0;
 		public ArrayCollectionIterator()
 		{
-			// TODO Auto-generated method stub
+		//does something that we dont know
 		}
 
 		public boolean hasNext() {
-			// TODO Auto-generated method stub
-			return false;
+
+			return nextIDX < size;
 		}
 
 		public T next() {
-			// TODO Auto-generated method stub
-			return null;
+			return data[nextIDX++];
 		}
 
 		public void remove() {
-			// TODO Auto-generated method stub
+			this.remove(nextIDX);
 		}
 
 	}
