@@ -38,7 +38,7 @@ public class ArrayCollection<T> implements Collection<T> {
 		size = 0;
 		// We can't instantiate an array of unknown type T, so we must create an Object array, and typecast
 		data = (T[]) new Object[10]; // Start with an initial capacity of 10
-		maxSize = 1;
+		maxSize = 10;
 	}
 
 	/**
@@ -52,9 +52,12 @@ public class ArrayCollection<T> implements Collection<T> {
 		//Clones the data from the old array into the new array.
 		//Makes the Initial Array into the new array.
 		//Doubles the Max Size
-		temp = new int[data.length * 2];
-		temp = data.clone();
-		data = temp;
+//		t[] ArrayCollection<T> temp = new ArrayCollection();
+		T[] temp = (T[]) new Object[this.size*2];
+		for(int i = 0; i < this.size; i++){
+			temp[i] = this.data[i];
+		}
+		this.data = temp;
 		this.maxSize = this.maxSize*2;
 		// You will need to use something similar to the code in the constructor above to create a new array.
 	}
@@ -90,9 +93,9 @@ public class ArrayCollection<T> implements Collection<T> {
 	public boolean addAll(Collection<? extends T> arg0) {
 		//Loops through the array of stuff to be added and calls the add method for each index.
 		//If anything was not added to the array, return false.
-		for(int i = 0; i < arg0.size(); i++){
-			this.add(arg0.data[i]);
-			if(!this.add(arg0.data[i])){return false;}}
+		for(T obj : arg0){
+		this.add(obj);
+		}
 		return true;
 	}
 
@@ -101,11 +104,11 @@ public class ArrayCollection<T> implements Collection<T> {
 	 */
 	public void clear() {
 		//initializes new array of size 0;
-		T[] array = new arrayCollection();
+		T[] temp = (T[]) new Object[0];
 		//resets size and max size to 0 and sets data of array to new array.
 		this.size = 0;
 		this.maxSize = 0;
-		this.data = array;
+		this.data = temp;
 
 	}
 
@@ -131,14 +134,12 @@ public class ArrayCollection<T> implements Collection<T> {
 	 * @return True if Initial Array List has anything from compared List. Otherwise Return False.
 	 */
 	public boolean containsAll(Collection<?> arg0) {
-		for(int i = 0; i < arg0.size(); i++){
+		for(Object obj : arg0){
 			//Loops through the Array and calls contains() method for every index in the compared array.
-			if(this.contains(arg0.data[i])){
-				continue;
-			}
-			else{return false;}
-		}
-		return true;
+
+			if(!contains(obj)){return false;}
+	}
+	return true;
 	}
 
 	/**
@@ -153,8 +154,7 @@ public class ArrayCollection<T> implements Collection<T> {
 
 	public Iterator<T> iterator() {
 
-//		return new ArrayCollectionIterator();
-		return null;
+		return new ArrayCollectionIterator();
 	}
 
 	/**
@@ -167,17 +167,18 @@ public class ArrayCollection<T> implements Collection<T> {
 		if(!this.contains(arg0)){
 			return false;}
 		//creates a new temporary array that is the same size as the initial array.
-		temp = new int[this.data.length];
+		T[] temp = (T[]) new Object[this.size];
 		//loops through initial array.
-		for(int i = 0; this.size){
+		for(int i = 0; i < this.size; i++){
 			// if at any point the array's data is equal to the argument, skip it.
 			if(this.data[i].equals(arg0)){
-				continue;
 				this.size -= 1;
+				continue;
+
 			}
 			//otherwise add it to the temp array
 			else{
-				temp.add(this.data[i]);
+				temp[i] = this.data[i];
 
 			}
 		}
@@ -195,8 +196,11 @@ public class ArrayCollection<T> implements Collection<T> {
 		//Initial check if the initial array contains arg0
 		if(!this.containsAll(arg0)){ return false;}
 		//if it does, loop through the array and remove each data point from the initial array and return true after they have all been removed.
-		for(int i = 0; i < arg0.length; i++){
-			this.remove(arg0.data[i]);
+//		for(int i = 0; i < arg0.size(); i++){
+//			this.remove(arg0.data[i]);
+//		}
+		for(Object obj: arg0){
+			remove(obj);
 		}
 
 		return true;
@@ -269,7 +273,12 @@ public class ArrayCollection<T> implements Collection<T> {
 		return null;
 	}
 
-
+//	public T[] getData(){
+//		return this.data;
+//	}
+//	public int getSize(){
+//		return this.size;
+//	}
 	/**
 	 * 
 	 * @author ??
@@ -294,7 +303,7 @@ public class ArrayCollection<T> implements Collection<T> {
 		}
 
 		public void remove() {
-			this.remove(nextIDX);
+//			this.remove(nextIDX);
 		}
 
 	}
