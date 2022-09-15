@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+
 /**
  * @author Daniel Kopta, Sebastian Barney, and Amelia Neilson.
  * Implements the Collection interface using an array as storage.
@@ -53,11 +54,13 @@ public class ArrayCollection<T> implements Collection<T> {
 		//Makes the Initial Array into the new array.
 		//Doubles the Max Size
 //		t[] ArrayCollection<T> temp = new ArrayCollection();
-		T[] temp = (T[]) new Object[this.size*2];
+		
+		//T[] temp = (T[]) new Object[this.size*2];
+		Object[] temp = new Object[this.size*2];
 		for(int i = 0; i < this.size; i++){
 			temp[i] = this.data[i];
 		}
-		this.data = temp;
+		this.data = (T[])temp;
 		this.maxSize = this.maxSize*2;
 		// You will need to use something similar to the code in the constructor above to create a new array.
 	}
@@ -86,17 +89,23 @@ public class ArrayCollection<T> implements Collection<T> {
 	}
 
 	/**
-	 * Adds a list of stuff to the array.
+	 * Adds entire list to the collection array.
 	 * @param arg0 - List to be added.
-	 * @return -Returns true if the list was added, returns false otherwise.
+	 * @return -Returns true if the any object in the input list was added, returns false otherwise.
 	 */
 	public boolean addAll(Collection<? extends T> arg0) {
 		//Loops through the array of stuff to be added and calls the add method for each index.
-		//If anything was not added to the array, return false.
+		//If nothing was added return false.
+		boolean addedAnythingCheck = false;
+		
 		for(T obj : arg0){
-		this.add(obj);
+		if(this.add(obj)== true) {
+			addedAnythingCheck = true;
+		};
+			
+			
 		}
-		return true;
+		return addedAnythingCheck;
 	}
 
 	/**
@@ -169,19 +178,31 @@ public class ArrayCollection<T> implements Collection<T> {
 		//creates a new temporary array that is the same size as the initial array.
 		T[] temp = (T[]) new Object[this.size];
 		//loops through initial array.
-		for(int i = 0; i < this.size; i++){
+//		for(Object obj : this.data){
+//			if(obj.equals(arg0)){
+//				this.size -= 1;
+//				continue;}
+//			else{temp = this;}
+int counter = this.size;
+int j = 0;
+		for(int i = 0; i < this.size; i++) {
+
 			// if at any point the array's data is equal to the argument, skip it.
-			if(this.data[i].equals(arg0)){
-				this.size -= 1;
-				continue;
+			if (this.data[i].equals(arg0)) {
+				counter -= 1;
+				j--;
+//				continue;
 
 			}
 			//otherwise add it to the temp array
-			else{
-				temp[i] = this.data[i];
+			else {
+				temp[j] = this.data[i];
 
 			}
+			j++;
 		}
+
+		this.size = counter;
 		//set the initial array equal to the temp array and return true.
 		this.data = temp;
 		return true;
@@ -225,22 +246,11 @@ public class ArrayCollection<T> implements Collection<T> {
 	 * @return - an array of exact size
 	 */
 	public Object[] toArray() {
-		//creates a counter
-		int counter = 0;
-		//loops through the array and increments the counter for every non null entry in the array.
-		for(int i = 0; i < this.size(); i++){
-			if(this.data[i].equals(null)){
-				continue;
-			}
-			else{
-				counter++;
-			}
-
-		}
+				
 		//creates a new array of size counter (which will be the exact size of valid array entries)
 		// for every entry in the array add it to the exact array if it is not null.
-		Object[] newArray = new Object[counter];
-		for(int j = 0; j <= counter; j++){
+		Object[] newArray = new Object[this.size()];
+		for(int j = 0; j < this.size; j++){
 			if(!this.data[j].equals(null)){
 		newArray[j] = (Object) this.data[j] ;}}
 		return newArray;
@@ -287,25 +297,35 @@ public class ArrayCollection<T> implements Collection<T> {
 	 */
 	private class ArrayCollectionIterator implements Iterator<T>
 	{
-		int nextIDX = 0;
+		int nextIDX;
+		boolean canNext;
 		public ArrayCollectionIterator()
 		{
+			 nextIDX = 0;
+			 canNext = false;
 		//does something that we dont know
 		}
 
 		public boolean hasNext() {
-
 			return nextIDX < size;
 		}
 
-		public T next() {
-			return data[nextIDX++];
+		public T next() throws NoSuchElementException{
+			if(!hasNext()){
+				throw new NoSuchElementException();}
+			else{
+				canNext = true;
+			return data[nextIDX++];}
 		}
 
-		public void remove() {
-//			this.remove(nextIDX);
+		public void remove() throws IllegalStateException {
+			if(hasNext()){ArrayCollection.this.remove(data[nextIDX]);}
+			else {
+				nextIDX--;
+				throw new IllegalStateException();}
 		}
 
 	}
+
 
 }
