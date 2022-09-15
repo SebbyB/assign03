@@ -13,12 +13,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.Array;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 
 public class ArrayCollectionTester {
 
     int testStartNum = 0;
-    int testRemoveNum = 10;
+    int testRemoveNum = 5;
     int testEndNum = 10;
 //add Method Testers ----------------------------------------------------
     @Test
@@ -404,12 +405,12 @@ public class ArrayCollectionTester {
             assertTrue(testingArray.add(i));
             if(i < (testEndNum - 1)){
                 assertTrue(testingArray.iterator().hasNext());
-
-//                assertDoesNotThrow(testingArray.iterator().next());
+//                assertDoesNotThrow(testingArray.iterator().next())
                 assertTrue(testingArray.contains(testingArray.iterator().next()));
             } else if (i == testEndNum) {
                 assertFalse(testingArray.iterator().hasNext());
                 //assert throws
+                assertThrows(NoSuchElementException.class, () -> {testingArray.iterator().next();});
 
             }
 
@@ -425,11 +426,67 @@ public class ArrayCollectionTester {
             if(i < (testEndNum - 1)){
                 testingArray.iterator().remove();
                 assertFalse(testingArray.contains(i));}
-////            else if (i == testEndNum) {assertFalse(testingArray.iterator().hasNext());
+            else if (i == testEndNum) {
+                assertFalse(testingArray.iterator().hasNext());
+                assertThrows(IllegalStateException.class, () -> {testingArray.iterator().remove();});
+            }
 
             }
         }
+//RetainAll Tester ----------------------------------------------------
 
+    @Test
+    public void retainAllSmall(){
+        ArrayCollection<Integer> testingArray = new ArrayCollection<Integer>();
+        ArrayCollection<Integer> removeArray = new ArrayCollection<Integer>();
+
+            assertTrue(testingArray.add(1));
+            assertTrue(testingArray.add(2));
+            assertTrue(testingArray.add(3));
+            assertTrue(testingArray.add(4));
+            assertTrue(removeArray.add(1));
+            assertTrue(removeArray.add(3));
+
+        assertTrue(testingArray.retainAll(removeArray));
+        assertFalse(testingArray.contains(2));
+        assertFalse(testingArray.contains(4));
+
+
+
+    }
+
+    @Test
+        public void retainAllItemsGeneral(){
+            ArrayCollection<Integer> testingArray = new ArrayCollection<Integer>();
+            ArrayCollection<Integer> removeArray = new ArrayCollection<Integer>();
+
+            for(int i = testStartNum; i < testEndNum; i++){
+                assertTrue(testingArray.add(i));
+                if(i < testRemoveNum){
+                    removeArray.add(i);}
+            }
+            assertTrue(testingArray.retainAll(removeArray));
+            assertTrue(testingArray.containsAll(removeArray));
+
+    }
+
+    @Test
+    public void retainAllDoesntHaveAll(){
+        ArrayCollection<Integer> testingArray = new ArrayCollection<Integer>();
+        ArrayCollection<Integer> removeArray = new ArrayCollection<Integer>();
+
+        for(int i = testStartNum; i < testEndNum; i++){
+            assertTrue(testingArray.add(i));
+            if(i < testRemoveNum){
+                removeArray.add(i);}
+        }
+        removeArray.add(testEndNum + 1);
+
+        assertTrue(testingArray.retainAll(removeArray));
+        assertFalse(testingArray.containsAll(removeArray));
+
+
+    }
 
 
 

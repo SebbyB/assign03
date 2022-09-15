@@ -229,7 +229,14 @@ int j = 0;
 
 	public boolean retainAll(Collection<?> arg0) {
 		// TODO Auto-generated method stub
-		return false;
+		boolean removed = false;
+		for(Object obj : this){
+			if(!arg0.contains(obj)){
+				this.remove(obj);
+			removed = true;}
+
+		}
+		return removed;
 	}
 
 	/**
