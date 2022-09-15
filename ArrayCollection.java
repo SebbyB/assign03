@@ -284,12 +284,40 @@ int j = 0;
 	 * @param cmp - the comparator that defines item ordering
 	 * @return - the sorted list
 	 */
-	public ArrayList<T> toSortedList(Comparator<? super T> cmp)
-	{
-		// TODO fill in this method
-		return null;
-	}
+	public ArrayList<T> toSortedList(Comparator<? super T> cmp) {
 
+		T temp;
+
+		ArrayList<T> newList = new ArrayList<T>(this.size());
+
+		for (int i = 0; i < this.size(); i++) {
+
+			newList.add(this.data[i]);
+
+		}
+
+
+		for (int i = 0; i < newList.size() - 1; i++) {
+
+			int j, minIndex;
+
+			for (j = i + 1, minIndex = i; j < newList.size(); j++)
+
+				if (cmp.compare(newList.get(j), newList.get(minIndex)) < 0)
+
+					minIndex = j;
+
+			temp = newList.get(i);
+
+			newList.set(i, newList.get(minIndex));
+
+			newList.set(minIndex, temp);
+
+
+		}
+
+		return newList;
+	}
 //	public T[] getData(){
 //		return this.data;
 //	}
@@ -302,8 +330,7 @@ int j = 0;
 	 * Describe your ArrayCollectionIterator class here.
 	 *
 	 */
-	private class ArrayCollectionIterator implements Iterator<T>
-	{
+	private class ArrayCollectionIterator implements Iterator<T> {
 		int nextIDX;
 		boolean canNext;
 		public ArrayCollectionIterator()
