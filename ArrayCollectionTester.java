@@ -487,7 +487,6 @@ public class ArrayCollectionTester {
         assertTrue(testingArray.retainAll(removeArray));
         assertFalse(testingArray.containsAll(removeArray));
 
-
     }
 
 
@@ -592,120 +591,106 @@ public class ArrayCollectionTester {
 
 
 
+ //   ------------------------------binary
+ @Test
 
-}
-
-
-class OrderStringComparator implements Comparator<String> {
-
-    /**
-
-     * Returns a negative value if lhs beginning/smaller
-
-     * Returns a positive value if lhs later/larger less overdue .
-
-     * Returns 0 if lhs and rhs are the same word
-
-     */
+ public void toBinarySortedInteger(){
 
 
-    public int compare(String lhs, String rhs) {
+     ArrayCollection<Integer> testingArray = new ArrayCollection<Integer>();
+
+
+     Integer Int1 = (1);
+
+     Integer Int2 = (-1);
+
+     Integer Int3 = (169);
+
+     Integer Int4 = (30);
 
 
 
+     testingArray.add(Int1);
 
-        String LHS = lhs;
+     testingArray.add(Int2);
 
-        String RHS = rhs;
+     testingArray.add(Int3);
 
-
-        int smaller;
-
-        if(LHS.length() < RHS.length()|| LHS.length() == RHS.length()) {
-
-            smaller = LHS.length();
-
-        }
-
-        else{
-
-            smaller = RHS.length();
-
-        }
-
-        for(int i = 0; i < smaller ;i++) {
-
-            if(LHS.charAt(i) < RHS.charAt(i)) {
-
-                return -1;
-
-            }
-
-            if(LHS.charAt(i) > RHS.charAt(i)) {
-
-                return 1;
-
-            }
-
-        }
-
-        if(LHS.length() < RHS.length()) {
-
-            return -1;
-
-        }
-
-        if(RHS.length() < LHS.length()) {
-
-            return 1;
-
-        }
-
-        return 0;
-
-
-    }
-
-
-}
-
-
-class NumberComparator implements Comparator<Integer> {
-
-    /**
-
-     * Returns a negative value if lhs smaller
-
-     * Returns a positive value if lhs larger .
-
-     * Returns 0 if lhs and rhs are the same
-
-     */
+     testingArray.add(Int4);
 
 
 
-
-    @Override
-
-    public int compare(Integer lhs, Integer rhs) {
+     Comparator<Integer> compare = new NumberComparator();
 
 
-        if (lhs > rhs){
 
-            return 1;
+     assertTrue(SearchUtil.binarySearch(testingArray,Int3,compare));
 
-        }
+     assertEquals(Int2,testingArray.toSortedList(compare).get(0));
 
-        if (lhs < rhs) {
+     assertEquals(Int1,testingArray.toSortedList(compare).get(1));
 
-            return -1;
+     assertEquals(Int4,testingArray.toSortedList(compare).get(2));
 
-        }
+     assertEquals(Int3,testingArray.toSortedList(compare).get(3));
 
-        return 0;
+
+
+ }
+
+
+
+    @Test
+
+    public void toBinarySortedString(){
+
+
+        ArrayCollection<String> testingArray = new ArrayCollection<String>();
+
+
+        String string1 = "zebra";
+
+        String string2 = "batman";
+
+        String string3 = "bat";
+
+        String string4 = "felt";
+
+        String string5 = "abe";
+
+
+        testingArray.add(string1);
+
+        testingArray.add(string2);
+
+        testingArray.add(string3);
+
+        testingArray.add(string4);
+
+        testingArray.add(string5);
+
+
+
+        Comparator<String> compare = new OrderStringComparator();
+
+
+
+        assertEquals("abe",testingArray.toSortedList(compare).get(0));
+
+        assertEquals("bat",testingArray.toSortedList(compare).get(1));
+
+        assertEquals("batman",testingArray.toSortedList(compare).get(2));
+
+        assertEquals("felt",testingArray.toSortedList(compare).get(3));
+
+        assertEquals("zebra",testingArray.toSortedList(compare).get(4));
+
+
 
     }
 
 
 }
+
+
 
